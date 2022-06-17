@@ -17,7 +17,9 @@ class Main {
     Service.register(session);
     ServiceData.register(session);
 
-    session.createNew(Application.class).start();
+    var app = session.createNew(Application.class);
+    Runtime.getRuntime().addShutdownHook(new Thread(() -> app.stop()));
+    app.start();
   }
 
   static Connection memoryDB(String name) {

@@ -14,8 +14,9 @@ class Application {
       .build();
   }
 
-  void start() throws IOException {
+  void start() throws IOException, InterruptedException {
     server.start();
+    server.awaitTermination();
   }
 
   void stop() {

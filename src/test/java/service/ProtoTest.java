@@ -26,7 +26,7 @@ class ProtoTest {
   static Jdbc jdbc;
 
   @BeforeAll
-  static void serverStart() throws IOException {
+  static void serverStart() throws IOException, InterruptedException {
     jdbc = new Jdbc(() -> memoryDB("test"));
 
     var session = new Injection();
@@ -41,7 +41,7 @@ class ProtoTest {
     jdbc.execute("create table tablex(id int not null, v varchar(255) not null, primary key(id))", st-> {});
     jdbc.execute("insert into tablex(id, v) values (1, 'a')", st -> {});
 
-    app.start();
+    new Thread(() -> unchecked(() -> app.start())).start();
   }
 
   @AfterAll
