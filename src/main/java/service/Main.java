@@ -18,7 +18,7 @@ class Main {
     ServiceData.register(session);
 
     var app = session.createNew(Application.class);
-    Runtime.getRuntime().addShutdownHook(new Thread(() -> app.stop()));
+    Runtime.getRuntime().addShutdownHook(new Thread(app::stop));
     app.start();
   }
 
