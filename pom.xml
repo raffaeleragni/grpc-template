@@ -15,6 +15,7 @@
     <maven.compiler.source>18</maven.compiler.source>
     <maven.compiler.target>18</maven.compiler.target>
     <sonar.jacoco.reportPath>${project.build.directory}/jacoco.exec</sonar.jacoco.reportPath>
+    <sonar.coverage.exclusions>src/main/java/service/Main.*</sonar.coverage.exclusions>
     <protobuf.version>3.21.1</protobuf.version>
     <grpc.version>1.47.0</grpc.version>
   </properties>
@@ -38,6 +39,11 @@
         <artifactId>jacoco-maven-plugin</artifactId>
         <version>0.8.8</version>
         <inherited>true</inherited>
+        <configuration>
+          <excludes>
+            <exclude>${sonar.coverage.exclusions}</exclude>
+          </excludes>
+        </configuration>
         <executions>
           <execution>
             <goals>
@@ -103,6 +109,27 @@
         </executions>
       </plugin>
 
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-shade-plugin</artifactId>
+        <version>3.3.0</version>
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <goals>
+              <goal>shade</goal>
+            </goals>
+            <configuration>
+              <transformers>
+                <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                  <mainClass>service.Main</mainClass>
+                </transformer>
+              </transformers>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
     </plugins>
 
     <extensions>
@@ -115,6 +142,12 @@
   </build>
 
   <dependencies>
+
+    <dependency>
+      <groupId>com.github.raffaeleragni</groupId>
+      <artifactId>jx</artifactId>
+      <version>0.9</version>
+    </dependency>
 
 
     <dependency>
