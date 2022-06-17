@@ -8,7 +8,7 @@ import service.grpc.Service;
 class Application {
   Server server;
 
-  public Application(Service service) {
+  Application(Service service) {
     server = ServerBuilder.forPort(8080)
       .addService(service)
       .build();
